@@ -3,8 +3,9 @@ import React, { useState, useEffect } from 'react';
 const ChatFab = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 600);
 
-  // Inject keyframes for pulse animation
+  // Inject keyframes for pulse animation once
   useEffect(() => {
     const styleTag = document.createElement('style');
     styleTag.innerHTML = `
@@ -18,20 +19,29 @@ const ChatFab = () => {
     return () => document.head.removeChild(styleTag);
   }, []);
 
-  // Inline styles
+  // Handle window resize to detect mobile view
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 600);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Styles for desktop and mobile
   const fabStyle = {
     position: 'fixed',
     bottom: '30px',
     right: '30px',
     zIndex: 1000,
-    width: '64px',
-    height: '64px',
+    width: isMobile ? '50px' : '64px',
+    height: isMobile ? '50px' : '64px',
     borderRadius: '50%',
     backgroundColor: '#21b6ae',
     color: '#fff',
     border: 'none',
     boxShadow: '0 4px 16px rgba(0,0,0,0.2)',
-    fontSize: '32px',
+    fontSize: isMobile ? '24px' : '32px',
     cursor: 'pointer',
     display: isChatOpen ? 'none' : 'flex',
     alignItems: 'center',
@@ -45,8 +55,8 @@ const ChatFab = () => {
     bottom: '30px',
     right: '30px',
     zIndex: 1001,
-    width: '420px',
-    height: '620px',
+    width: isMobile ? '90vw' : '420px',
+    height: isMobile ? '70vh' : '620px',
     boxShadow: '0 4px 32px rgba(0,0,0,0.28)',
     borderRadius: '18px',
     overflow: 'hidden',
@@ -82,13 +92,13 @@ const ChatFab = () => {
 
   const tooltipStyle = {
     position: 'absolute',
-    right: '80px',
+    right: isMobile ? '70px' : '80px',
     bottom: '0',
     background: 'rgba(33,182,174,0.95)',
     color: '#fff',
     padding: '14px 18px',
     borderRadius: '10px',
-    fontSize: '1rem',
+    fontSize: isMobile ? '0.85rem' : '1rem',
     whiteSpace: 'nowrap',
     boxShadow: '0 2px 8px rgba(0,0,0,0.14)',
     opacity: showTooltip ? 1 : 0,
@@ -98,6 +108,8 @@ const ChatFab = () => {
     zIndex: 1100,
     fontWeight: 500,
     letterSpacing: 0.5,
+    maxWidth: isMobile ? '180px' : 'none',
+    textAlign: 'center',
   };
 
   return (
@@ -116,8 +128,7 @@ const ChatFab = () => {
         onMouseLeave={() => setShowTooltip(false)}
       >
         {/* Medical stethoscope SVG */}
-        
-        <svg width="34" height="34" viewBox="0 0 24 24" fill="none">
+        <svg width={isMobile ? 24 : 34} height={isMobile ? 24 : 34} viewBox="0 0 24 24" fill="none">
           <path d="M6 3v6a6 6 0 1 0 12 0V3" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           <circle cx="18" cy="18" r="3" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
