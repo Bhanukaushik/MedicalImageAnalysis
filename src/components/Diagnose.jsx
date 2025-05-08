@@ -9,7 +9,7 @@ const DiagnosePage = () => {
     window.history.replaceState({ redirectedFrom: "/diagnose" }, "", "/");
 
     // Redirect immediately to the new Gradio Space
-    window.location.href = "https://huggingface.co/spaces/vaseemaman/medimage";
+    window.location.href = "https://vaseemaman-medimage.hf.space";
   }, []);
 
   return null;
