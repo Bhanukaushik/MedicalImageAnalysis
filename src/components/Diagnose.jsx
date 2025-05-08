@@ -8,8 +8,8 @@ const DiagnosePage = () => {
     // Replace current state to prevent going back here again
     window.history.replaceState({ redirectedFrom: "/diagnose" }, "", "/");
 
-    // Redirect immediately to Gradio
-    window.location.href = "https://bhanukaushik-lung-cancer-detector.hf.space";
+    // Redirect immediately to the new Gradio Space
+    window.location.href = "https://huggingface.co/spaces/vaseemaman/medimage";
   }, []);
 
   return null;
